@@ -11,19 +11,19 @@ read op
 echo -n "두 번째 숫자를 입력하세요: "
 read num2
 
-# 연산자에 따라 분기 처리 (case문 사용)
+# 연산자에 따라 분기 처리
 case "$op" in
     "+")
-        # 덧셈
-        result=$(echo "$num1 + $num2" | bc)
+        # 덧셈: $(( )) 사용 (정수 연산)
+        result=$((num1 + num2))
         ;;
     "-")
-        # 뺄셈
-        result=$(echo "$num1 - $num2" | bc)
+        # 뺄셈: $(( )) 사용
+        result=$((num1 - num2))
         ;;
     "*")
-        # 곱셈
-        result=$(echo "$num1 * $num2" | bc)
+        # 곱셈: $(( )) 사용
+        result=$((num1 * num2))
         ;;
     "/")
         # 나눗셈 (0으로 나누기 예외처리 포함)
@@ -31,8 +31,9 @@ case "$op" in
             echo "오류: 0으로 나눌 수 없습니다."
             exit 1
         else
-            # scale=2 : 소수점 둘째 자리까지 표현
-            result=$(echo "scale=2; $num1 / $num2" | bc)
+            # 나눗셈: bc 대신 awk 사용 (소수점 계산 가능)
+            # 윈도우 Git Bash에서도 잘 작동함
+            result=$(awk "BEGIN {printf \"%.2f\", $num1 / $num2}")
         fi
         ;;
     *)
