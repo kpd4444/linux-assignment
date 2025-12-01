@@ -14,16 +14,16 @@ read num2
 # 연산자에 따라 분기 처리 (case문 사용)
 case "$op" in
     "+")
-        # 덧셈
-        result=$(echo "$num1 + $num2" | bc)
+        # 덧셈 (수정됨)
+        result=$((num1 + num2))
         ;;
     "-")
-        # 뺄셈
-        result=$(echo "$num1 - $num2" | bc)
+        # 뺄셈 (수정됨)
+        result=$((num1 - num2))
         ;;
     "*")
-        # 곱셈
-        result=$(echo "$num1 * $num2" | bc)
+        # 곱셈 (수정됨)
+        result=$((num1 * num2))
         ;;
     "/")
         # 나눗셈 (0으로 나누기 예외처리 포함)
@@ -31,8 +31,8 @@ case "$op" in
             echo "오류: 0으로 나눌 수 없습니다."
             exit 1
         else
-            # scale=2 : 소수점 둘째 자리까지 표현
-            result=$(echo "scale=2; $num1 / $num2" | bc)
+            # 나눗셈 (수정됨: 정수 계산만 가능)
+            result=$((num1 / num2))
         fi
         ;;
     *)
